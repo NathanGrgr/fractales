@@ -60,10 +60,10 @@ class App(Tk):
         self.affiche_image(image)
         for i in range(LARGEUR):
             for j in range(LARGEUR):
-                z_r=i
-                z_im=j
+                z_r = xmin + (i / LARGEUR) * (xmax - xmin)
+                z_im = ymin + (j / HAUTEUR) * (ymax - ymin)
                 borne=calcule_convergence(z_r,z_im)
-                print(borne)
+
                 if borne!=-1:
                     pixels[i,j]=(0,0,0) #255,255,255
                 else:
