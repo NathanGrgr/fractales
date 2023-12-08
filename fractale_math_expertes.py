@@ -54,10 +54,20 @@ class App(Tk):
         return (self.xmin, self.ymin), (self.xmax, self.ymax)
 
     def genere_image(self):
-        """Genere le fractale en utilisant les paramètres courants"""
         image = creer_image_vide()
         pixels = image.load()
         (xmin, ymin), (xmax, ymax) = self.retourne_contour_image()
+        self.affiche_image(image)
+        for i in range(LARGEUR):
+            for j in range(LARGEUR):
+                z_r=i
+                z_im=j
+                borne=calcule_convergence(z_r,z_im)
+                print(borne)
+                if borne!=-1:
+                    pixels[i,j]=(0,0,0) #255,255,255
+                else:
+                    pixels[i,j]=(255,255,255) #test c'est 0,0,0
         # produit en croix -2 et 2 avec 500 et -500
         # z= x + iy
         # si -1 pixel noir sinon pixel blanc
@@ -69,7 +79,7 @@ class App(Tk):
         # pixels[i,j] = (0, 0 ,0)
         # 0 pour noir 255 pour blanc et entre les deux pour le niveau de gris et la couleur
 
-        self.affiche_image(image)
+        
 
 def creer_image_vide():
     return Image.new('RGB', (LARGEUR,HAUTEUR), "white") # cree une image blanche
@@ -78,9 +88,9 @@ def calcule_convergence(z_r, z_im): #calcule borné
     compteur=0
     divergence=False
     while divergence!=True:
+          compteur+=1
           if compteur==MAX_ITER:
              break
-          compteur+=1
           if module(z_r,z_im)>=2:
              divergence=True
     for i in range(compteur):
@@ -96,11 +106,7 @@ def calcule_convergence(z_r, z_im): #calcule borné
 
 
 def complexe_carre(z_r, z_im): #c_r c_im # calcule le carre d'un nombre complexe en retournant sa partie reelle et imaginaire
-    a=z_r
-    b=z_im
-    z_r=a**2+b**2
-    z_im=2*a*b
-    return z_r, z_im
+    return z_r**2-z_r**2, 2*z_r*z_im
 
 def module(z_r, z_im):
     return(math.sqrt(z_r**2+z_im**2))
@@ -108,7 +114,6 @@ def module(z_r, z_im):
 if __name__ == "__main__":
     app = App()
     app.title('Fractales')
-    print(calcule_convergence(5,6))
     app.genere_image()
 
     app.mainloop()
