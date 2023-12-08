@@ -59,15 +59,14 @@ class App(Tk):
         (xmin, ymin), (xmax, ymax) = self.retourne_contour_image()
         self.affiche_image(image)
         for i in range(LARGEUR):
-            for j in range(LARGEUR):
-                z_r = xmin + (i / LARGEUR) * (xmax - xmin)
-                z_im = ymin + (j / HAUTEUR) * (ymax - ymin)
+            for j in range(HAUTEUR):
+                z_r = xmax * i / LARGEUR
+                z_im = ymax * j / HAUTEUR
                 borne=calcule_convergence(z_r,z_im)
-
                 if borne!=-1:
-                    pixels[i,j]=(0,0,0) #255,255,255
+                    pixels[i,j]=(255,255,255) #255,255,255
                 else:
-                    pixels[i,j]=(255,255,255) #test c'est 0,0,0
+                    pixels[i,j]=(0,0,0) #test c'est 0,0,0
         # produit en croix -2 et 2 avec 500 et -500
         # z= x + iy
         # si -1 pixel noir sinon pixel blanc
